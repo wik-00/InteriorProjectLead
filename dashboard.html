@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Interior Lead Marketplace</title>
+    <meta name="description" content="Your Interior Lead Marketplace dashboard. Manage your account, view purchased leads, and track your business growth.">
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <h1><a href="/" style="text-decoration: none; color: inherit;">Interior Lead Marketplace</a></h1>
+            </div>
+            <div class="nav-menu">
+                <a href="/" class="nav-link">Home</a>
+                <a href="/leads" class="nav-link">Leads</a>
+                <a href="/about" class="nav-link">About</a>
+                <a href="/contact" class="nav-link">Contact</a>
+                <a href="/dashboard" class="nav-link active">Dashboard</a>
+                <button id="logoutBtn" class="nav-link btn-primary">Logout</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Dashboard Header -->
+    <section class="dashboard-header">
+        <div class="container">
+            <div id="userInfo">
+                <!-- User info will be loaded here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Dashboard Content -->
+    <section class="dashboard-content">
+        <div class="container">
+            <div class="dashboard-grid">
+                <!-- Quick Stats -->
+                <div class="dashboard-card card">
+                    <h3>Quick Stats</h3>
+                    <div class="stats-list">
+                        <div class="stat-item">
+                            <span class="stat-label">Leads Purchased:</span>
+                            <span class="stat-value">0</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Total Spent:</span>
+                            <span class="stat-value">₹0</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Account Status:</span>
+                            <span class="stat-value">Active</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Leads -->
+                <div class="dashboard-card card">
+                    <h3>Available Leads</h3>
+                    <p>Browse and purchase quality leads for your business</p>
+                    <a href="/leads" class="btn btn-primary">Browse Leads</a>
+                </div>
+
+                <!-- Account Settings -->
+                <div class="dashboard-card card">
+                    <h3>Account Settings</h3>
+                    <div class="settings-list">
+                        <div class="setting-item">
+                            <span>Profile Information</span>
+                            <button class="btn btn-secondary">Update</button>
+                        </div>
+                        <div class="setting-item">
+                            <span>Payment Methods</span>
+                            <button class="btn btn-secondary">Manage</button>
+                        </div>
+                        <div class="setting-item">
+                            <span>Notifications</span>
+                            <button class="btn btn-secondary">Configure</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Activity -->
+                <div class="dashboard-card card">
+                    <h3>Recent Activity</h3>
+                    <div class="activity-list">
+                        <div class="activity-item">
+                            <span class="activity-date">Today</span>
+                            <span class="activity-text">Account created successfully</span>
+                        </div>
+                        <div class="activity-item">
+                            <span class="activity-date">Today</span>
+                            <span class="activity-text">Profile verified</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Purchased Leads Section -->
+            <div class="purchased-leads-section">
+                <h2>Your Purchased Leads</h2>
+                <div id="purchasedLeadsContainer" class="purchased-leads-grid">
+                    <div class="no-leads-message">
+                        <p>You haven't purchased any leads yet.</p>
+                        <a href="/leads" class="btn btn-primary">Browse Available Leads</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Interior Lead Marketplace</h3>
+                    <p>Connecting interior designers with quality leads across India.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/leads">Leads</a></li>
+                        <li><a href="/about">About</a></li>
+                        <li><a href="/contact">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact Info</h4>
+                    <ul>
+                        <li>S 284, Greater Kailash 1, Delhi 110048</li>
+                        <li>+91 7840003852</li>
+                        <li>info@interiorleadmarketplace.com</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Interior Lead Marketplace. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="/assets/js/main.js"></script>
+    <script>
+        // Initialize dashboard
+        document.addEventListener('DOMContentLoaded', () => {
+            if (window.app) {
+                window.app.setupDashboard();
+            }
+        });
+    </script>
+</body>
+</html>

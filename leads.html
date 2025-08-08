@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Browse Leads - Interior Lead Marketplace</title>
+    <meta name="description" content="Browse and purchase verified interior design leads from homeowners and businesses across India. Quality leads for interior designers.">
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <h1><a href="/" style="text-decoration: none; color: inherit;">Interior Lead Marketplace</a></h1>
+            </div>
+            <div class="nav-menu">
+                <a href="/" class="nav-link">Home</a>
+                <a href="/leads" class="nav-link active">Leads</a>
+                <a href="/about" class="nav-link">About</a>
+                <a href="/contact" class="nav-link">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Leads Header -->
+    <section class="leads-header">
+        <div class="container">
+            <h1>Quality Interior Design Leads</h1>
+            <p>Browse verified leads from genuine customers looking for interior design services</p>
+        </div>
+    </section>
+
+    <!-- Leads Section -->
+    <section class="leads-section">
+        <div class="container">
+            <div class="leads-filters">
+                <h3>Filter Leads</h3>
+                <div class="filter-group">
+                    <select class="form-input filter-select">
+                        <option value="">All Categories</option>
+                        <option value="residential">Residential</option>
+                        <option value="commercial">Commercial</option>
+                    </select>
+                    <select class="form-input filter-select">
+                        <option value="">All Locations</option>
+                        <option value="delhi">Delhi</option>
+                        <option value="mumbai">Mumbai</option>
+                        <option value="bangalore">Bangalore</option>
+                        <option value="chennai">Chennai</option>
+                        <option value="kolkata">Kolkata</option>
+                    </select>
+                    <select class="form-input filter-select">
+                        <option value="">All Budgets</option>
+                        <option value="0-500000">₹0 - ₹5 Lakh</option>
+                        <option value="500000-1000000">₹5 Lakh - ₹10 Lakh</option>
+                        <option value="1000000+">₹10 Lakh+</option>
+                    </select>
+                </div>
+            </div>
+
+            <div id="leadsContainer" class="leads-grid">
+                <!-- Leads will be loaded here by JavaScript -->
+                <div class="loading-message">
+                    <p>Loading leads...</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Interior Lead Marketplace</h3>
+                    <p>Connecting interior designers with quality leads across India.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/leads">Leads</a></li>
+                        <li><a href="/about">About</a></li>
+                        <li><a href="/contact">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact Info</h4>
+                    <ul>
+                        <li>S 284, Greater Kailash 1, Delhi 110048</li>
+                        <li>+91 7840003852</li>
+                        <li>info@interiorleadmarketplace.com</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Interior Lead Marketplace. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="/assets/js/main.js"></script>
+</body>
+</html>
