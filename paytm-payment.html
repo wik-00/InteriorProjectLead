@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paytm Payment - Interior Project Lead</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            margin: 0; 
+            padding: 20px; 
+            background: #f5f5f5; 
+        }
+        .container { 
+            max-width: 500px; 
+            margin: 0 auto; 
+            background: white; 
+            padding: 30px; 
+            border-radius: 10px; 
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1); 
+        }
+        .logo { 
+            text-align: center; 
+            margin-bottom: 30px; 
+            font-size: 24px; 
+            font-weight: bold; 
+            color: #2563eb; 
+        }
+        .form-group { 
+            margin-bottom: 20px; 
+        }
+        label { 
+            display: block; 
+            margin-bottom: 5px; 
+            font-weight: bold; 
+        }
+        input, select { 
+            width: 100%; 
+            padding: 12px; 
+            border: 1px solid #ddd; 
+            border-radius: 5px; 
+            font-size: 16px; 
+        }
+        .btn { 
+            background: #00BAF2; 
+            color: white; 
+            padding: 15px 30px; 
+            border: none; 
+            border-radius: 5px; 
+            font-size: 18px; 
+            cursor: pointer; 
+            width: 100%; 
+        }
+        .btn:hover { 
+            background: #0095c4; 
+        }
+        .lead-info { 
+            background: #f8f9fa; 
+            padding: 15px; 
+            border-radius: 5px; 
+            margin-bottom: 20px; 
+        }
+        .price { 
+            font-size: 20px; 
+            font-weight: bold; 
+            color: #059669; 
+        }
+        .error { 
+            color: #dc2626; 
+            margin-top: 10px; 
+        }
+        .loading { 
+            display: none; 
+            text-align: center; 
+            color: #666; 
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">Interior Project Lead</div>
+        
+        <div class="lead-info" id="leadInfo">
+            <h3>Purchase Lead</h3>
+            <p id="leadTitle">Loading...</p>
+            <p class="price" id="leadPrice">₹0</p>
+        </div>
+        
+        <form id="paymentForm">
+            <div class="form-group">
+                <label for="customerPhone">Phone Number *</label>
+                <input type="tel" id="customerPhone" required maxlength="10" placeholder="Enter 10-digit mobile number">
+            </div>
+            
+            <div class="form-group">
+                <label for="customerEmail">Email Address *</label>
+                <input type="email" id="customerEmail" required placeholder="Enter your email">
+            </div>
+            
+            <button type="submit" class="btn">
+                Pay with Paytm
+            </button>
+            
+            <div class="loading" id="loading">
+                Processing payment request...
+            </div>
+            
+            <div class="error" id="error"></div>
+        </form>
+        
+        <!-- Hidden form for Paytm submission -->
+        <form id="paytmForm" method="post" action="" style="display: none;">
+        </form>
+    </div>
+
+    <script>
+        // Get URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const leadId = urlParams.get('lead_id');
+        const userId = urlParams.get('user_id') || '1'; // Default user ID for demo
+        
+        // Load lead information
+        if (leadId) {
+            fetch(`./php-backend/api/leads.php?id=${leadId}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success && data.lead) {
+                        document.getElementById('leadTitle').textContent = data.lead.title;
+                        document.getElementById('leadPrice').textContent = `₹${data.lead.price}`;
+                    }
+                })
+                .catch(error => {
+                    console.error('Error loading lead:', error);
+                });
+        }
+        
+        // Handle payment form submission
+        document.getElementById('paymentForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const phone = document.getElementById('customerPhone').value;
+            const email = document.getElementById('customerEmail').value;
+            const errorDiv = document.getElementById('error');
+            const loadingDiv = document.getElementById('loading');
+            
+            // Clear previous errors
+            errorDiv.textContent = '';
+            
+            // Validate phone number
+            if (phone.length !== 10 || !/^\d{10}$/.test(phone)) {
+                errorDiv.textContent = 'Please enter a valid 10-digit phone number';
+                return;
+            }
+            
+            // Show loading
+            loadingDiv.style.display = 'block';
+            
+            try {
+                // Get lead details for amount
+                const leadResponse = await fetch(`./php-backend/api/leads.php?id=${leadId}`);
+                const leadData = await leadResponse.json();
+                
+                if (!leadData.success) {
+                    throw new Error('Lead not found');
+                }
+                
+                // Create payment request
+                const paymentResponse = await fetch('./php-backend/api/payment.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        lead_id: leadId,
+                        user_id: userId,
+                        amount: leadData.lead.price,
+                        customer_phone: phone,
+                        customer_email: email
+                    })
+                });
+                
+                const paymentData = await paymentResponse.json();
+                
+                if (!paymentData.success) {
+                    throw new Error(paymentData.error || 'Payment request failed');
+                }
+                
+                // Create Paytm form and submit
+                const paytmForm = document.getElementById('paytmForm');
+                paytmForm.action = paymentData.paytm_url;
+                paytmForm.innerHTML = '';
+                
+                // Add all Paytm parameters as hidden fields
+                for (const [key, value] of Object.entries(paymentData.paytm_params)) {
+                    const input = document.createElement('input');
+                    input.type = 'hidden';
+                    input.name = key;
+                    input.value = value;
+                    paytmForm.appendChild(input);
+                }
+                
+                // Submit to Paytm
+                paytmForm.submit();
+                
+            } catch (error) {
+                loadingDiv.style.display = 'none';
+                errorDiv.textContent = error.message;
+            }
+        });
+        
+        // Check for payment result in URL
+        const paymentResult = urlParams.get('payment');
+        if (paymentResult) {
+            const orderId = urlParams.get('order_id');
+            const txnId = urlParams.get('txn_id');
+            const reason = urlParams.get('reason');
+            
+            if (paymentResult === 'success') {
+                alert(`Payment Successful!\nOrder ID: ${orderId}\nTransaction ID: ${txnId}`);
+                window.location.href = './index.html';
+            } else if (paymentResult === 'failed') {
+                alert(`Payment Failed!\nOrder ID: ${orderId}\nReason: ${reason}`);
+            } else if (paymentResult === 'error') {
+                alert(`Payment Error!\n${urlParams.get('message')}`);
+            }
+        }
+    </script>
+</body>
+</html>

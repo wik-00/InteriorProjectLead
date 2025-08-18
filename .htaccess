@@ -1,0 +1,26 @@
+RewriteEngine On
+
+# Handle API routes
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# Route API requests to appropriate PHP files
+RewriteRule ^api/leads/?(.*)$ api/leads.php [L,QSA]
+RewriteRule ^api/auth/?(.*)$ api/auth.php [L,QSA]
+RewriteRule ^api/admin/?(.*)$ api/admin.php [L,QSA]
+RewriteRule ^api/categories/?(.*)$ api/categories.php [L,QSA]
+RewriteRule ^api/payment/?(.*)$ api/payment.php [L,QSA]
+RewriteRule ^api/payment-status/?(.*)$ api/payment-status.php [L,QSA]
+RewriteRule ^api/paytm-callback/?(.*)$ api/paytm-callback.php [L,QSA]
+RewriteRule ^api/leads/([0-9]+)/inquiries/?(.*)$ api/inquiries.php [L,QSA]
+RewriteRule ^api/leads/([0-9]+)/messages/?(.*)$ api/messages.php [L,QSA]
+
+# Handle CORS preflight requests
+RewriteCond %{REQUEST_METHOD} OPTIONS
+RewriteRule ^(.*)$ $1 [R=200,L]
+
+# Set PHP settings
+php_value upload_max_filesize 32M
+php_value post_max_size 32M
+php_value memory_limit 128M
+php_value max_execution_time 300
